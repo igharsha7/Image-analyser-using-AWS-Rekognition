@@ -62,24 +62,24 @@ export function UploadPage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-64px)] bg-gradient-to-b from-background via-background to-card/20">
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+    <main className="bg-gradient-to-b from-background via-background to-card/20 py-8 sm:py-12">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <div className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
+        <div className="mb-8 text-center">
+          <h1 className="mb-3 text-4xl font-bold tracking-tight sm:text-5xl">
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
               Image Analyzer
             </span>
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-base text-muted-foreground">
             Upload images from Google Drive and analyze them with AWS Rekognition
           </p>
         </div>
 
         {/* Main Card */}
         <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-          <div className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="p-6 sm:p-8">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Input Section */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">Google Drive Folder URL</label>
@@ -166,16 +166,16 @@ export function UploadPage() {
         </Card>
 
         {/* Info Section */}
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          <Card className="border-border/50 bg-card/30 p-4">
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <Card className="border-border/50 bg-card/30 p-3">
             <div className="text-sm font-medium text-primary">Supported</div>
             <p className="mt-1 text-xs text-muted-foreground">Public Google Drive folders with nested subfolders</p>
           </Card>
-          <Card className="border-border/50 bg-card/30 p-4">
+          <Card className="border-border/50 bg-card/30 p-3">
             <div className="text-sm font-medium text-primary">Analysis</div>
             <p className="mt-1 text-xs text-muted-foreground">AWS Rekognition for labels, faces, and attributes</p>
           </Card>
-          <Card className="border-border/50 bg-card/30 p-4">
+          <Card className="border-border/50 bg-card/30 p-3">
             <div className="text-sm font-medium text-primary">Features</div>
             <p className="mt-1 text-xs text-muted-foreground">Search, filter, and visualize face detection</p>
           </Card>
