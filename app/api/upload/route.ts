@@ -23,6 +23,10 @@ export async function POST(request: NextRequest) {
     const rekognitionService = getRekognitionService()
     const s3Service = getS3Service()
 
+    // Initialize Rekognition face collection (create if doesn't exist)
+    console.log('\n🔧 Initializing AWS Rekognition face collection...')
+    await rekognitionService.initializeFaceCollection()
+
     // Step 1: Fetch images from Google Drive
     console.log('\n📥 Step 1: Fetching images from Google Drive...')
     const images = await driveService.fetchImagesFromFolder(folderUrl)

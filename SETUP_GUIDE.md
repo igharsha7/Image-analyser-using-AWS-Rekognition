@@ -148,9 +148,35 @@ Then open [http://localhost:3000](http://localhost:3000)
 4. Check the console for logs
 
 ### Verify in AWS Console
-1. **S3 Bucket**: Should have `images/` and `metadata/` folders
-2. **Rekognition Collections**: Run this to verify:
-   - Go to **AWS CLI** or use the app's first upload
+
+#### 1. Check S3 Bucket
+1. Go to **S3** in AWS Console
+2. Click on your bucket name
+3. You should see two folders:
+   - **`images/`** - Contains your uploaded images
+   - **`metadata/`** - Contains JSON files with analysis results
+4. Click into each folder to verify files are there
+
+#### 2. Check Rekognition Face Collection (Optional)
+The app **automatically creates** the face collection on first upload, but you can verify:
+
+**Option A: AWS Console**
+1. Go to **Rekognition** service in AWS Console
+2. Select region: **ap-southeast-1** (Singapore) in top-right
+3. Click **Face collections** in left sidebar
+4. You should see: `faces-collection`
+
+**Option B: Check App Logs**
+When you ran the upload, check your terminal logs - you should see:
+```
+Face collection already exists: faces-collection
+```
+or
+```
+✓ Face collection created: faces-collection
+```
+
+If your upload succeeded, the collection is already there! ✅
 
 ---
 
