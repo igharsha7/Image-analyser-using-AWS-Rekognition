@@ -10,7 +10,7 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "AI Image Analyzer",
+  title: "Image Analyzer",
   description: "Professional image gallery with AWS Rekognition analysis",
   generator: "v0.app",
 }

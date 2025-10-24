@@ -68,7 +68,7 @@ export function UploadPage() {
         <div className="mb-12 text-center">
           <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-              AI Image Analyzer
+              Image Analyzer
             </span>
           </h1>
           <p className="text-lg text-muted-foreground">

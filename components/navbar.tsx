@@ -25,7 +25,7 @@ export function Navbar() {
               <Sparkles className="h-5 w-5 text-primary-foreground" />
             </div>
             <span className="hidden sm:inline bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              AI Image Analyzer
+              Image Analyzer
             </span>
           </Link>
 
