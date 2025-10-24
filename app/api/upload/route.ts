@@ -7,6 +7,14 @@ import {
   getS3Service,
 } from '@/lib/config'
 
+/**
+ * POST /api/upload
+ * Handles the complete image processing pipeline:
+ * 1. Fetch images from Google Drive
+ * 2. Compress large images
+ * 3. Analyze with AWS Rekognition
+ * 4. Upload to S3 with metadata
+ */
 export async function POST(request: NextRequest) {
   try {
     const { folderUrl } = await request.json()
@@ -15,20 +23,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, message: "Folder URL is required" }, { status: 400 })
     }
 
-    console.log(`\n🚀 Starting image processing for folder: ${folderUrl}`)
+    console.log(`\nStarting image processing for folder: ${folderUrl}`)
 
-    // Initialize services
+    // Initialize all required services
     const driveService = getGoogleDriveService()
     const compressionService = getCompressionService()
     const rekognitionService = getRekognitionService()
     const s3Service = getS3Service()
 
     // Initialize Rekognition face collection (create if doesn't exist)
-    console.log('\n🔧 Initializing AWS Rekognition face collection...')
+    console.log('\nInitializing AWS Rekognition face collection...')
     await rekognitionService.initializeFaceCollection()
 
     // Step 1: Fetch images from Google Drive
-    console.log('\n📥 Step 1: Fetching images from Google Drive...')
+    console.log('\nStep 1: Fetching images from Google Drive...')
     const images = await driveService.fetchImagesFromFolder(folderUrl)
 
     if (images.length === 0) {
@@ -40,8 +48,8 @@ export async function POST(request: NextRequest) {
 
     console.log(`Found ${images.length} image(s) to process`)
 
-    // Step 2: Compress images (if needed)
-    console.log('\n🗜️ Step 2: Compressing images...')
+    // Step 2: Compress images (if needed - images over 40MB will be compressed to ~10MB)
+    console.log('\nStep 2: Compressing images...')
     const processedImages = []
 
     for (const image of images) {
@@ -55,8 +63,8 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Step 3: Analyze with AWS Rekognition
-    console.log('\n🔍 Step 3: Analyzing images with AWS Rekognition...')
+    // Step 3: Analyze with AWS Rekognition (detect labels, faces, emotions, etc.)
+    console.log('\nStep 3: Analyzing images with AWS Rekognition...')
     const analysisResults = []
 
     for (let i = 0; i < processedImages.length; i++) {
@@ -78,8 +86,8 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Step 4: Upload to S3
-    console.log('\n☁️ Step 4: Uploading to AWS S3...')
+    // Step 4: Upload images and metadata to AWS S3
+    console.log('\nStep 4: Uploading to AWS S3...')
     const uploadedImages = []
 
     for (const result of analysisResults) {
@@ -99,7 +107,7 @@ export async function POST(request: NextRequest) {
       uploadedImages.push(metadata)
     }
 
-    console.log(`\n✅ Successfully processed ${uploadedImages.length} image(s)`)
+    console.log(`\nSuccessfully processed ${uploadedImages.length} image(s)`)
 
     return NextResponse.json({
       success: true,
@@ -107,7 +115,7 @@ export async function POST(request: NextRequest) {
       message: `Successfully processed ${uploadedImages.length} images from the folder`,
     })
   } catch (error: any) {
-    console.error('❌ Upload failed:', error)
+    console.error('Upload failed:', error)
     return NextResponse.json({
       success: false,
       message: error.message || "Failed to process images",

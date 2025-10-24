@@ -67,7 +67,7 @@ export class RekognitionService {
           CollectionId: this.collectionId,
         });
         await this.rekognitionClient.send(createCommand);
-        console.log(`✓ Face collection created: ${this.collectionId}`);
+        console.log(`SUCCESS: Face collection created: ${this.collectionId}`);
       } else {
         console.log(`Face collection already exists: ${this.collectionId}`);
       }
@@ -95,7 +95,7 @@ export class RekognitionService {
       const response = await this.rekognitionClient.send(command);
       const labels = response.Labels?.map((label) => label.Name || '') || [];
       
-      console.log(`✓ Detected ${labels.length} labels:`, labels.join(', '));
+      console.log(`SUCCESS: Detected ${labels.length} labels:`, labels.join(', '));
       return labels;
     } catch (error) {
       console.error('DetectLabels failed:', error);
@@ -141,7 +141,7 @@ export class RekognitionService {
         confidence: face.Confidence,
       }));
 
-      console.log(`✓ Detected ${faces.length} face(s)`);
+      console.log(`SUCCESS: Detected ${faces.length} face(s)`);
       return faces;
     } catch (error) {
       console.error('DetectFaces failed:', error);
@@ -172,7 +172,7 @@ export class RekognitionService {
       const faceRecords = response.FaceRecords || [];
       const faceIds = faceRecords.map((record) => record.Face?.FaceId || '').filter(Boolean);
 
-      console.log(`✓ Indexed ${faceIds.length} face(s) to collection`);
+      console.log(`SUCCESS: Indexed ${faceIds.length} face(s) to collection`);
       return faceIds;
     } catch (error) {
       console.error('IndexFaces failed:', error);

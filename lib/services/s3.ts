@@ -59,7 +59,7 @@ export class S3Service {
       // Generate a signed URL that expires in 7 days
       const url = await this.getSignedUrl(key);
 
-      console.log(`✓ Uploaded image to S3: ${key}`);
+      console.log(`SUCCESS: Uploaded image to S3: ${key}`);
 
       return {
         key,
@@ -89,7 +89,7 @@ export class S3Service {
 
     try {
       await this.s3Client.send(command);
-      console.log(`✓ Uploaded metadata to S3: ${key}`);
+      console.log(`SUCCESS: Uploaded metadata to S3: ${key}`);
     } catch (error) {
       console.error('Metadata upload failed:', error);
       throw new Error(`Failed to upload metadata: ${error}`);

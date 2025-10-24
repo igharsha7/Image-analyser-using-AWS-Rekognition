@@ -67,7 +67,7 @@ export async function initializeServices(): Promise<void> {
     const rekognition = getRekognitionService();
     await rekognition.initializeFaceCollection();
     
-    console.log('✓ All services initialized');
+    console.log('SUCCESS: All services initialized');
   } catch (error) {
     console.error('Failed to initialize services:', error);
     throw error;

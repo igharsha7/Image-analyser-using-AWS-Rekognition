@@ -44,7 +44,14 @@ export function ImageViewerModal({ image, isOpen, onClose }: ImageViewerModalPro
           {/* Image with Face Overlays */}
           <div className="md:col-span-2">
             <div className="relative aspect-square overflow-hidden rounded-lg bg-muted">
-              <Image src={image.imageUrl || "/placeholder.svg"} alt="Detailed view" fill className="object-cover" />
+              <Image 
+                src={image.imageUrl || "/placeholder.svg"} 
+                alt="Detailed view" 
+                fill 
+                sizes="(max-width: 768px) 100vw, 66vw"
+                priority
+                className="object-cover" 
+              />
 
               {/* Face Detection Overlays */}
               {showFaceOverlays &&

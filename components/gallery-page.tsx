@@ -204,6 +204,8 @@ export function GalleryPage() {
                     src={image.imageUrl || "/placeholder.svg"}
                     alt="Gallery image"
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority={filteredImages.indexOf(image) < 3}
                     className="object-cover transition-transform group-hover:scale-105"
                   />
                   {/* Face Count Badge */}

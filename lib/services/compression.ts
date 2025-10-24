@@ -107,7 +107,7 @@ export class ImageCompressionService {
       const compressedSize = compressedBuffer.length;
       const compressionRatio = originalSize / compressedSize;
 
-      console.log(`✓ Compressed to ${this.formatBytes(compressedSize)} (${compressionRatio.toFixed(2)}x reduction)`);
+      console.log(`SUCCESS: Compressed to ${this.formatBytes(compressedSize)} (${compressionRatio.toFixed(2)}x reduction)`);
 
       return {
         data: compressedBuffer,

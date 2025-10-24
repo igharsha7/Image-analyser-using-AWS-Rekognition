@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server"
 import { getS3Service } from '@/lib/config'
 
-// Keep mock data as fallback for development
+/**
+ * Mock data store for development/testing
+ * Used when AWS credentials are not configured
+ */
 const mockImageStore: Record<string, any> = {
   "1": {
     id: "1",
@@ -65,6 +68,11 @@ const mockImageStore: Record<string, any> = {
   },
 }
 
+/**
+ * GET /api/images
+ * Retrieves all processed images with their metadata
+ * Falls back to mock data if AWS is not configured
+ */
 export async function GET() {
   try {
     // Check if AWS credentials are configured
@@ -73,29 +81,29 @@ export async function GET() {
                          process.env.AWS_SECRET_ACCESS_KEY
 
     if (!hasAwsConfig) {
-      console.log('⚠️ AWS not configured, returning mock data')
+      console.log('WARNING: AWS not configured, returning mock data')
       return NextResponse.json(Object.values(mockImageStore))
     }
 
     // Fetch real data from S3
-    console.log('📥 Fetching images from S3...')
+    console.log('Fetching images from S3...')
     const s3Service = getS3Service()
     const images = await s3Service.listAllMetadata()
 
-    console.log(`✓ Retrieved ${images.length} image(s) from S3`)
+    console.log(`Retrieved ${images.length} image(s) from S3`)
 
     // If no images in S3, return mock data for development
     if (images.length === 0) {
-      console.log('⚠️ No images in S3, returning mock data')
+      console.log('WARNING: No images in S3, returning mock data')
       return NextResponse.json(Object.values(mockImageStore))
     }
 
     return NextResponse.json(images)
   } catch (error) {
-    console.error('❌ Failed to fetch images:', error)
+    console.error('ERROR: Failed to fetch images:', error)
     
     // Fallback to mock data on error
-    console.log('⚠️ Error occurred, returning mock data')
+    console.log('WARNING: Error occurred, returning mock data')
     return NextResponse.json(Object.values(mockImageStore))
   }
 }
