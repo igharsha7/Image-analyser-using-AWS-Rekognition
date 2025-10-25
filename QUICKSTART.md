@@ -11,28 +11,28 @@ Follow this checklist to get your AI Image Analyzer up and running quickly!
 - [ ] `.env.local` file created from `.env.example`
 
 ### 2. AWS Configuration
-- [ .] AWS account created
-- [ .] IAM user created with permissions
-- [ .] AWS Access Key ID and Secret obtained
-- [ .] S3 bucket created
-- [ .] S3 bucket CORS configured
-- [ .] Region noted (e.g., `us-east-1`)
-- [ ] Billing alerts set up (recommended!)
+- [  ] AWS account created
+- [  ] IAM user created with permissions
+- [  ] AWS Access Key ID and Secret obtained
+- [  ] S3 bucket created
+- [  ] S3 bucket CORS configured
+- [  ] Region noted (e.g., `us-east-1`)
+- [  ] Billing alerts set up (recommended!)
 
 ### 3. Google Drive API
-- [. ] Google Cloud project created
-- [. ] Google Drive API enabled
-- [ .] API key generated
-- [ .] API key added to `.env.local`
-- [ ] Test folder created and made public
+- [  ] Google Cloud project created
+- [  ] Google Drive API enabled
+- [  ] API key generated
+- [  ] API key added to `.env.local`
+- [  ] Test folder created and made public
 
 ### 4. Environment Variables
 Update your `.env.local` with:
-- [ .] `AWS_ACCESS_KEY_ID`
-- [ .] `AWS_SECRET_ACCESS_KEY`
-- [ .] `AWS_REGION`
-- [ .] `AWS_S3_BUCKET_NAME`
-- [ .] `GOOGLE_DRIVE_API_KEY`
+- [  ] `AWS_ACCESS_KEY_ID`
+- [  ] `AWS_SECRET_ACCESS_KEY`
+- [  ] `AWS_REGION`
+- [  ] `AWS_S3_BUCKET_NAME`
+- [  ] `GOOGLE_DRIVE_API_KEY`
 
 ### 5. Testing
 - [ ] Run `npm run dev`

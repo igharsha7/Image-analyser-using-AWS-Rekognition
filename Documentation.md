@@ -1,795 +1,401 @@
-# 🖼️ Image Analyzer# Image Analyzer - Technical Documentation & Project Report
+# Image Analyzer - Technical Documentation & Project Report
 
+## Executive Summary
 
+This document provides comprehensive technical documentation for the Image Analyzer project, a full-stack web application developed as an internship assignment. The system integrates Google Drive, AWS Rekognition, and AWS S3 to provide automated image analysis, face detection, and intelligent image management capabilities.
 
-<div align="center">## Executive Summary
-
-
-
-![Next.js](https://img.shields.io/badge/Next.js-16.0-black?style=for-the-badge&logo=next.js)This document provides comprehensive technical documentation for the Image Analyzer project, a full-stack web application developed as an internship assignment. The system integrates Google Drive, AWS Rekognition, and AWS S3 to provide automated image analysis, face detection, and intelligent image management capabilities.
-
-![React](https://img.shields.io/badge/React-19.2-blue?style=for-the-badge&logo=react)
-
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)**Project Type**: Internship Project - Google Drive Image Indexing and Upload  
-
-![AWS](https://img.shields.io/badge/AWS-S3_&_Rekognition-orange?style=for-the-badge&logo=amazon-aws)**Development Period**: October 2025  
-
-![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=for-the-badge&logo=vercel)**Current Status**: Production Ready (100% Complete)  
-
+**Project Type**: Internship Project - Google Drive Image Indexing and Upload  
+**Development Period**: October 2025  
+**Current Status**: Production Ready (100% Complete)  
 **Deployment Platform**: Vercel  
+**Primary Developer**: igharsha7
 
-**AI-Powered Image Analysis & Face Detection Platform****Primary Developer**: igharsha7
+---
 
+## Table of Contents
 
-
-[Live Demo](#) · [Documentation](./SETUP_GUIDE.md) · [Quick Start](./QUICKSTART.md) · [Report Issue](https://github.com/igharsha7/image-analyzer/issues)---
-
-
-
-</div>## Table of Contents
-
-
-
----1. [Project Overview](#project-overview)
-
+1. [Project Overview](#project-overview)
 2. [Technical Specifications](#technical-specifications)
-
-## 📋 Overview3. [System Architecture](#system-architecture)
-
+3. [System Architecture](#system-architecture)
 4. [Technology Stack & Dependencies](#technology-stack--dependencies)
-
-Image Analyzer is a full-stack web application that automatically processes images from Google Drive, performs AI-powered analysis using AWS Rekognition, and provides an intelligent gallery with face detection and content-based search capabilities.5. [Core Features & Implementation](#core-features--implementation)
-
+5. [Core Features & Implementation](#core-features--implementation)
 6. [Project Structure](#project-structure)
-
-### ✨ Key Features7. [Development Environment Setup](#development-environment-setup)
-
+7. [Development Environment Setup](#development-environment-setup)
 8. [AWS Services Configuration](#aws-services-configuration)
-
-- 🔄 **Automated Google Drive Integration** - Fetch images recursively from public folders9. [Google Drive API Integration](#google-drive-api-integration)
-
-- 🗜️ **Smart Image Compression** - Automatically compress large files (40MB+ → ~10MB) with minimal quality loss10. [Deployment Process](#deployment-process)
-
-- 🤖 **AI-Powered Analysis** - AWS Rekognition for object detection, scene recognition, and face analysis11. [Performance Optimization Techniques](#performance-optimization-techniques)
-
-- 👤 **Advanced Face Detection** - Detect faces with attributes (age, gender, emotions) and visual overlays12. [Security Implementation](#security-implementation)
-
-- 🔍 **Intelligent Search** - Filter images by labels, search by content, face presence filtering13. [Cost Analysis](#cost-analysis)
-
-- ☁️ **Cloud Storage** - Secure AWS S3 storage with signed URLs14. [Technical Challenges & Solutions](#technical-challenges--solutions)
-
-- 📱 **Responsive Design** - Works seamlessly on desktop, tablet, and mobile devices15. [Testing & Validation](#testing--validation)
-
-- ⚡ **Performance Optimized** - Parallel API processing, image lazy loading, debounced search16. [Future Scope](#future-scope)
-
+9. [Google Drive API Integration](#google-drive-api-integration)
+10. [Deployment Process](#deployment-process)
+11. [Performance Optimization Techniques](#performance-optimization-techniques)
+12. [Security Implementation](#security-implementation)
+13. [Cost Analysis](#cost-analysis)
+14. [Technical Challenges & Solutions](#technical-challenges--solutions)
+15. [Testing & Validation](#testing--validation)
+16. [Future Scope](#future-scope)
 17. [Project Statistics](#project-statistics)
+18. [Conclusion](#conclusion)
 
----18. [Conclusion](#conclusion)
+---
 
+## 1. Project Overview
 
+### 1.1 Problem Statement
 
-## 🚀 Quick Start---
-
-
-
-### Prerequisites## 1. Project Overview
-
-
-
-- Node.js 18.0 or higher### 1.1 Problem Statement
-
-- npm 9.0 or higher
-
-- AWS Account (free tier eligible)Organizations and individuals face several challenges when managing large image collections:
-
-- Google Cloud Account (for Drive API)- Manual processing of large volumes of images from cloud storage is time-consuming
-
+Organizations and individuals face several challenges when managing large image collections:
+- Manual processing of large volumes of images from cloud storage is time-consuming
 - Lack of automated image analysis and metadata extraction
-
-### Installation- Difficulty in organizing and searching images based on visual content
-
+- Difficulty in organizing and searching images based on visual content
 - No automated face recognition across multiple images
+- High storage costs for unoptimized images
 
-```bash- High storage costs for unoptimized images
-
-# Clone the repository
-
-git clone https://github.com/igharsha7/image-analyzer.git### 1.2 Proposed Solution
-
-cd image-analyzer
+### 1.2 Proposed Solution
 
 The Image Analyzer is a comprehensive web-based solution that addresses these challenges through:
 
-# Install dependencies
-
-npm install --legacy-peer-deps1. **Automated Cloud Integration**: Direct integration with Google Drive for seamless image access
-
+1. **Automated Cloud Integration**: Direct integration with Google Drive for seamless image access
 2. **AI-Powered Analysis**: AWS Rekognition for intelligent label detection and face recognition
-
-# Configure environment variables3. **Smart Storage**: Automated image compression and cloud storage using AWS S3
-
-cp .env.example .env.local4. **Interactive Interface**: User-friendly web interface for viewing and searching processed images
-
-# Edit .env.local with your credentials
+3. **Smart Storage**: Automated image compression and cloud storage using AWS S3
+4. **Interactive Interface**: User-friendly web interface for viewing and searching processed images
 
 ### 1.3 System Workflow
 
-# Run development server
-
-npm run dev```
-
-```Input: Google Drive Folder URL
-
+```
+Input: Google Drive Folder URL
     ↓
-
-Visit [http://localhost:3000](http://localhost:3000) to see the app.Step 1: Fetch images recursively from Drive (including subfolders)
-
+Step 1: Fetch images recursively from Drive (including subfolders)
     ↓
-
-> **📖 Need detailed setup instructions?** Check out the [Complete Setup Guide](./SETUP_GUIDE.md)Step 2: Compress images larger than 40MB to ~10MB
-
+Step 2: Compress images larger than 40MB to ~10MB
     ↓
-
----Step 3: Analyze images with AWS Rekognition
-
+Step 3: Analyze images with AWS Rekognition
         - Detect labels (objects, scenes, activities)
-
-## 🏗️ Architecture        - Detect faces with attributes (age, gender, emotions)
-
+        - Detect faces with attributes (age, gender, emotions)
         - Index faces for recognition
-
-```    ↓
-
-┌─────────────────────────────────────────────────────────────┐Step 4: Store in AWS S3
-
-│                    CLIENT (Browser)                          │        - Processed images → images/ folder
-
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │        - Analysis metadata → metadata/ folder
-
-│  │ Upload Page  │  │ Gallery Page │  │ Image Viewer │      │    ↓
-
-│  └──────────────┘  └──────────────┘  └──────────────┘      │Output: Interactive gallery with search and face detection
-
-└────────────┬────────────────┬────────────────────────────────┘```
-
-             │                │
-
-             ├─ POST /api/upload### 1.4 Project Objectives
-
-             └─ GET /api/images
-
-                     │- Implement seamless Google Drive integration with recursive subfolder support
-
-┌────────────────────▼────────────────────────────────────────┐- Develop automated image compression system for files exceeding 40MB
-
-│                 NEXT.JS API ROUTES                           │- Integrate AWS Rekognition Index Faces API for comprehensive image analysis
-
-│  ┌──────────────────────────────────────────────────┐       │- Build scalable cloud storage infrastructure using AWS S3
-
-│  │  Service Layer (Google Drive, S3, Rekognition)   │       │- Create responsive, user-friendly web interface
-
-│  └──────────────────────────────────────────────────┘       │- Deploy production-ready application on Vercel platform
-
-└────┬─────────────────────────────────────┬─────────────────┘- Ensure security best practices for API keys and credentials
-
-     │                                     │- Optimize performance for fast image processing and retrieval
-
-┌────▼─────────────┐             ┌─────────▼──────────────┐
-
-│  Google Drive    │             │    AWS Services        │---
-
-│  (Fetch Images)  │             │  • S3 (Storage)        │
-
-└──────────────────┘             │  • Rekognition (AI)    │## 2. Technical Specifications
-
-                                 └────────────────────────┘
-
-```### 2.1 Core Technologies
-
-
-
----**Frontend Framework**:
-
-- Next.js 16.0.0 - React-based framework with App Router architecture
-
-## 💡 How It Works- React 19.2.0 - Latest version with concurrent rendering features
-
-- TypeScript 5.0 - Strict type checking enabled
-
-1. **Upload**: User provides a Google Drive folder URL
-
-2. **Fetch**: System recursively retrieves all images from the folder and subfolders**Styling & UI**:
-
-3. **Compress**: Large images (>40MB) are automatically compressed to ~10MB- Tailwind CSS 4.1.10 - Utility-first CSS framework
-
-4. **Analyze**: AWS Rekognition performs parallel analysis:- shadcn/ui - Accessible component library built on Radix UI
-
-   - Object and scene detection- Lucide React 0.468.0 - Icon library (1000+ icons)
-
-   - Face detection with attributes
-
-   - Face indexing for recognition**Backend & APIs**:
-
-5. **Store**: Processed images and metadata are uploaded to AWS S3- Next.js API Routes - Serverless function endpoints
-
-6. **Display**: Interactive gallery with search, filters, and face detection overlays- AWS SDK v3 (3.914.0) - Latest modular AWS SDK
-
-- Google APIs 164.1.0 - Google Drive API v3 client
-
----- Sharp 0.34.4 - High-performance image processing library
-
-
-
-## 🛠️ Tech Stack### 2.2 AWS Services Used
-
-
-
-### Frontend**Amazon S3 (Simple Storage Service)**:
-
-- **Framework**: Next.js 16.0 (App Router)- Version: AWS SDK v3 (@aws-sdk/client-s3: 3.914.0)
-
-- **UI Library**: React 19.2- Region: ap-south-1 (Asia Pacific - Mumbai)
-
-- **Language**: TypeScript 5.0- Purpose: Storage of processed images and metadata
-
-- **Styling**: Tailwind CSS 4.1- Features: Signed URLs, CORS configuration, public read access
-
-- **Components**: shadcn/ui (Radix UI)
-
-- **Icons**: Lucide React**Amazon Rekognition**:
-
-- Version: AWS SDK v3 (@aws-sdk/client-rekognition: 3.914.0)
-
-### Backend- Region: ap-southeast-1 (Asia Pacific - Singapore)
-
-- **API**: Next.js API Routes (Serverless)- APIs Used:
-
-- **Image Processing**: Sharp 0.34.4  - DetectLabels - Object and scene detection
-
-- **Validation**: Zod 3.25.76  - DetectFaces - Facial attribute detection
-
-  - IndexFaces - Face indexing for recognition
-
-### Cloud Services  - CreateCollection - Face collection management
-
-- **Storage**: AWS S3
-
-- **AI/ML**: AWS Rekognition**S3 Request Presigner**:
-
-- **Drive Integration**: Google Drive API v3- Version: @aws-sdk/s3-request-presigner 3.914.0
-
-- **Deployment**: Vercel- Purpose: Generate temporary signed URLs for secure image access
-
-
-
-### Key Libraries### 2.3 Third-Party Services
-
-- `@aws-sdk/client-s3` - S3 operations
-
-- `@aws-sdk/client-rekognition` - AI analysis**Google Drive API**:
-
-- `googleapis` - Google Drive integration- Version: googleapis 164.1.0
-
-- `sharp` - High-performance image processing- API: Drive API v3
-
-- `uuid` - Unique ID generation- Authentication: API Key
-
-- Features: Public folder access, recursive file listing
+    ↓
+Step 4: Store in AWS S3
+        - Processed images → images/ folder
+        - Analysis metadata → metadata/ folder
+    ↓
+Output: Interactive gallery with search and face detection
+```
+
+### 1.4 Project Objectives
+
+- Implement seamless Google Drive integration with recursive subfolder support
+- Develop automated image compression system for files exceeding 40MB
+- Integrate AWS Rekognition Index Faces API for comprehensive image analysis
+- Build scalable cloud storage infrastructure using AWS S3
+- Create responsive, user-friendly web interface
+- Deploy production-ready application on Vercel platform
+- Ensure security best practices for API keys and credentials
+- Optimize performance for fast image processing and retrieval
 
 ---
 
+## 2. Technical Specifications
+
+### 2.1 Core Technologies
+
+**Frontend Framework**:
+- Next.js 16.0.0 - React-based framework with App Router architecture
+- React 19.2.0 - Latest version with concurrent rendering features
+- TypeScript 5.0 - Strict type checking enabled
+
+**Styling & UI**:
+- Tailwind CSS 4.1.10 - Utility-first CSS framework
+- shadcn/ui - Accessible component library built on Radix UI
+- Lucide React 0.468.0 - Icon library (1000+ icons)
+
+**Backend & APIs**:
+- Next.js API Routes - Serverless function endpoints
+- AWS SDK v3 (3.914.0) - Latest modular AWS SDK
+- Google APIs 164.1.0 - Google Drive API v3 client
+- Sharp 0.34.4 - High-performance image processing library
+
+### 2.2 AWS Services Used
+
+**Amazon S3 (Simple Storage Service)**:
+- Version: AWS SDK v3 (@aws-sdk/client-s3: 3.914.0)
+- Region: ap-south-1 (Asia Pacific - Mumbai)
+- Purpose: Storage of processed images and metadata
+- Features: Signed URLs, CORS configuration, public read access
+
+**Amazon Rekognition**:
+- Version: AWS SDK v3 (@aws-sdk/client-rekognition: 3.914.0)
+- Region: ap-southeast-1 (Asia Pacific - Singapore)
+- APIs Used:
+  - DetectLabels - Object and scene detection
+  - DetectFaces - Facial attribute detection
+  - IndexFaces - Face indexing for recognition
+  - CreateCollection - Face collection management
+
+**S3 Request Presigner**:
+- Version: @aws-sdk/s3-request-presigner 3.914.0
+- Purpose: Generate temporary signed URLs for secure image access
+
+### 2.3 Third-Party Services
+
+**Google Drive API**:
+- Version: googleapis 164.1.0
+- API: Drive API v3
+- Authentication: API Key
+- Features: Public folder access, recursive file listing
+
 **Deployment Platform**:
-
-## 📁 Project Structure- Vercel - Serverless deployment platform
-
+- Vercel - Serverless deployment platform
 - Features: Automatic deployments, environment variables, global CDN
+- Configuration: Custom build commands for React 19 compatibility
 
-```- Configuration: Custom build commands for React 19 compatibility
+### 2.4 Image Processing Specifications
 
-aws-rekog-t2/
+**Compression Algorithm**:
+- Library: Sharp 0.34.4
+- Trigger: Images > 40MB
+- Target Size: ~10MB
+- Quality Range: 80% → 60% (iterative reduction)
+- Format Conversion: PNG to JPEG
+- Dimension Scaling: Max width 2000px if quality reduction insufficient
 
-├── app/### 2.4 Image Processing Specifications
+**Supported Image Formats**:
+- JPEG/JPG
+- PNG
+- WebP
+- GIF (first frame only)
+- Other formats supported by Sharp library
 
-│   ├── api/
+### 2.5 Complete Dependency List
 
-│   │   ├── upload/route.ts      # Image processing pipeline**Compression Algorithm**:
-
-│   │   └── images/route.ts      # Gallery data endpoint- Library: Sharp 0.34.4
-
-│   ├── gallery/page.tsx         # Gallery display page- Trigger: Images > 40MB
-
-│   ├── layout.tsx               # Root layout- Target Size: ~10MB
-
-│   └── page.tsx                 # Upload page (home)- Quality Range: 80% → 60% (iterative reduction)
-
-├── components/- Format Conversion: PNG to JPEG
-
-│   ├── ui/                      # shadcn/ui components- Dimension Scaling: Max width 2000px if quality reduction insufficient
-
-│   ├── upload-page.tsx          # Upload interface
-
-│   ├── gallery-page.tsx         # Image grid**Supported Image Formats**:
-
-│   ├── image-card.tsx           # Individual image card- JPEG/JPG
-
-│   ├── image-viewer-modal.tsx   # Full-screen viewer- PNG
-
-│   └── face-overlay.tsx         # Face detection overlay- WebP
-
-├── lib/- GIF (first frame only)
-
-│   ├── services/- Other formats supported by Sharp library
-
-│   │   ├── googleDrive.ts       # Drive API wrapper
-
-│   │   ├── compression.ts       # Image compression### 2.5 Complete Dependency List
-
-│   │   ├── s3.ts                # S3 operations
-
-│   │   └── rekognition.ts       # Rekognition analysis**Production Dependencies**:
-
-│   └── config.ts                # Service initialization```
-
-├── .env.local                   # Environment variables@aws-sdk/client-rekognition: 3.914.0
-
-└── vercel.json                  # Deployment config@aws-sdk/client-s3: 3.914.0
-
-```@aws-sdk/s3-request-presigner: 3.914.0
-
+**Production Dependencies**:
+```
+@aws-sdk/client-rekognition: 3.914.0
+@aws-sdk/client-s3: 3.914.0
+@aws-sdk/s3-request-presigner: 3.914.0
 @radix-ui/react-checkbox: 1.2.2
-
----@radix-ui/react-dialog: 1.2.2
-
+@radix-ui/react-dialog: 1.2.2
 @radix-ui/react-label: 2.1.2
-
-## ⚙️ Configuration@radix-ui/react-slot: 1.2.1
-
+@radix-ui/react-slot: 1.2.1
 @vercel/analytics: 1.5.1
-
-### Environment Variablesclass-variance-authority: 0.7.1
-
+class-variance-authority: 0.7.1
 clsx: 2.1.1
-
-Create a `.env.local` file in the root directory:googleapis: 164.1.0
-
+googleapis: 164.1.0
 lucide-react: 0.468.0
-
-```envnext: 16.0.0
-
-# AWS Configurationreact: 19.2.0
-
-AWS_REGION_S3=ap-south-1react-dom: 19.2.0
-
-AWS_REGION_REKOGNITION=ap-southeast-1sharp: 0.34.4
-
-AWS_ACCESS_KEY_ID=your_access_keytailwind-merge: 2.6.0
-
-AWS_SECRET_ACCESS_KEY=your_secret_keytailwindcss-animate: 1.0.7
-
-AWS_S3_BUCKET_NAME=your-bucket-nameuuid: 13.0.0
-
-AWS_REKOGNITION_COLLECTION_ID=image-faces-collectionvaul: 0.9.9
-
+next: 16.0.0
+react: 19.2.0
+react-dom: 19.2.0
+sharp: 0.34.4
+tailwind-merge: 2.6.0
+tailwindcss-animate: 1.0.7
+uuid: 13.0.0
+vaul: 0.9.9
 zod: 3.25.76
-
-# Google Drive API```
-
-GOOGLE_DRIVE_API_KEY=your_google_api_key
-
-```**Development Dependencies**:
-
 ```
 
-### AWS Setup Required@eslint/eslintrc: 3.2.0
-
+**Development Dependencies**:
+```
+@eslint/eslintrc: 3.2.0
 @types/node: 22.10.2
-
-1. **S3 Bucket**@types/react: 19.0.8
-
-   - Create bucket in `ap-south-1` region@types/react-dom: 19.0.2
-
-   - Configure CORS for web access@types/uuid: 10.0.0
-
-   - Set bucket policy for public read accesseslint: 9.18.0
-
+@types/react: 19.0.8
+@types/react-dom: 19.0.2
+@types/uuid: 10.0.0
+eslint: 9.18.0
 eslint-config-next: 16.0.0
-
-2. **Rekognition**postcss: 9.0.1
-
-   - Service available in `ap-southeast-1`tailwindcss: 4.1.10
-
-   - Face collection auto-created on first usetypescript: 5.7.3
-
+postcss: 9.0.1
+tailwindcss: 4.1.10
+typescript: 5.7.3
 ```
 
-3. **IAM User**
+### 2.6 Development Environment
 
-   - Permissions: `AmazonS3FullAccess`, `AmazonRekognitionFullAccess`### 2.6 Development Environment
-
-
-
-### Google Drive Setup**Required Software**:
-
+**Required Software**:
 - Node.js: 18.0 or higher
-
-1. Enable Google Drive API in Google Cloud Console- npm: 9.0 or higher
-
-2. Create API Key with HTTP referrer restrictions- Git: Latest version
-
-3. Folder must be set to "Anyone with the link"
+- npm: 9.0 or higher
+- Git: Latest version
 
 **Operating Systems Supported**:
-
-> **📖 Detailed Configuration**: See [Setup Guide](./SETUP_GUIDE.md) for step-by-step instructions- macOS
-
+- macOS
 - Windows
+- Linux
 
----- Linux
-
-
-
-## 🎯 Usage**Build Configuration**:
-
+**Build Configuration**:
 - TypeScript strict mode enabled
-
-### Uploading Images- ESLint for code quality
-
+- ESLint for code quality
 - PostCSS for CSS processing
+- Legacy peer dependencies flag required (React 19 compatibility)
 
-1. Navigate to the home page- Legacy peer dependencies flag required (React 19 compatibility)
+---
 
-2. Paste your Google Drive folder URL
+## 3. System Architecture
 
-3. Click "Analyze Images"---
+---
 
-4. Wait for processing (progress shown)
+## 3. System Architecture
 
-5. View results in gallery## 3. System Architecture
+### 3.1 High-Level Architecture Diagram
 
-
-
-### Gallery Features---
-
-
-
-- **Search**: Type labels or keywords to filter images## 3. System Architecture
-
-- **Label Filters**: Select specific labels to show matching images
-
-- **Face Filter**: Toggle to show only images with detected faces### 3.1 High-Level Architecture Diagram
-
-- **Face Detection**: Enable overlays to see bounding boxes and attributes
-
-- **Full View**: Click any image for full-screen modal with details```
-
+```
 ┌─────────────────────────────────────────────────────────────┐
-
----│                         CLIENT (Browser)                     │
-
+│                         CLIENT (Browser)                     │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-
-## 📊 Performance│  │ Upload Page  │  │ Gallery Page │  │ Image Viewer │      │
-
+│  │ Upload Page  │  │ Gallery Page │  │ Image Viewer │      │
 │  └──────────────┘  └──────────────┘  └──────────────┘      │
-
-- **Image Compression**: 70-80% size reduction with minimal quality loss└────────────┬────────────────┬────────────────────────────────┘
-
-- **Parallel Processing**: 3x faster with concurrent Rekognition API calls             │                │
-
-- **Page Load**: < 3 seconds initial load             │ POST           │ GET
-
-- **Gallery Load**: < 2 seconds             │ /api/upload    │ /api/images
-
-- **Search Response**: < 100ms             │                │
-
+└────────────┬────────────────┬────────────────────────────────┘
+             │                │
+             │ POST           │ GET
+             │ /api/upload    │ /api/images
+             │                │
 ┌────────────▼────────────────▼────────────────────────────────┐
-
----│                    NEXT.JS API ROUTES                         │
-
+│                    NEXT.JS API ROUTES                         │
 │  ┌──────────────┐           ┌──────────────┐                │
-
-## 💰 Cost Estimation│  │Upload Handler│           │Images Handler│                │
-
+│  │Upload Handler│           │Images Handler│                │
 │  └──────┬───────┘           └──────┬───────┘                │
-
-### Free Tier (First 12 Months)└─────────┼──────────────────────────┼────────────────────────┘
-
-- AWS S3: 5GB storage, 20,000 GET, 2,000 PUT requests          │                          │
-
-- AWS Rekognition: 5,000 images/month          │                          │
-
-- **Total: $0/month**┌─────────▼──────────────────────────▼────────────────────────┐
-
+└─────────┼──────────────────────────┼────────────────────────┘
+          │                          │
+          │                          │
+┌─────────▼──────────────────────────▼────────────────────────┐
 │                    SERVICE LAYER                             │
-
-### Beyond Free Tier│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-
-- **1,000 images/month**: ~$3.03/month│  │Google Drive  │  │ Compression  │  │ Rekognition  │      │
-
-- **10,000 images/month**: ~$30/month│  │   Service    │  │   Service    │  │   Service    │      │
-
-- **100,000 images/month**: ~$303/month│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘      │
-
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │Google Drive  │  │ Compression  │  │ Rekognition  │      │
+│  │   Service    │  │   Service    │  │   Service    │      │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘      │
 │         │                 │                 │               │
-
-*Costs scale linearly with usage*│         │                 │                 │               │
-
+│         │                 │                 │               │
 │  ┌──────▼─────────────────▼─────────────────▼───────┐      │
-
----│  │              S3 Service                           │      │
-
+│  │              S3 Service                           │      │
 │  └──────────────────────────────────────────────────┘      │
-
-## 🔒 Security└──────┬────────────────────────────────────┬─────────────────┘
-
+└──────┬────────────────────────────────────┬─────────────────┘
        │                                    │
-
-- ✅ Environment variables for sensitive credentials       │                                    │
-
-- ✅ IAM least privilege policies┌──────▼────────────────┐         ┌─────────▼──────────────┐
-
-- ✅ S3 CORS restrictions│   Google Drive API    │         │   AWS Services         │
-
-- ✅ Signed URLs with expiration (1 hour)│   (Public Folders)    │         │  ┌─────────────────┐   │
-
-- ✅ Input validation with Zod└───────────────────────┘         │  │ Rekognition     │   │
-
-- ✅ No sensitive data in client responses                                  │  │ (Face Analysis) │   │
-
+       │                                    │
+┌──────▼────────────────┐         ┌─────────▼──────────────┐
+│   Google Drive API    │         │   AWS Services         │
+│   (Public Folders)    │         │  ┌─────────────────┐   │
+└───────────────────────┘         │  │ Rekognition     │   │
+                                  │  │ (Face Analysis) │   │
                                   │  └─────────────────┘   │
-
----                                  │  ┌─────────────────┐   │
-
+                                  │  ┌─────────────────┐   │
                                   │  │ S3 Bucket       │   │
-
-## 🧪 Testing                                  │  │ (Storage)       │   │
-
+                                  │  │ (Storage)       │   │
                                   │  └─────────────────┘   │
-
-```bash                                  └────────────────────────┘
-
-# Run type checking```
-
-npm run type-check
+                                  └────────────────────────┘
+```
 
 ### 3.2 Data Flow Diagrams
 
-# Run linter
-
-npm run lint#### Upload Flow:
-
+#### Upload Flow:
 ```
-
-# Build production bundle1. User → Paste Google Drive URL
-
-npm run build2. Client → POST /api/upload
-
-```3. Server → Fetch images from Google Drive
-
+1. User → Paste Google Drive URL
+2. Client → POST /api/upload
+3. Server → Fetch images from Google Drive
 4. Server → Compress images > 40MB
-
-Manual testing checklist available in [Testing Documentation](./SETUP_GUIDE.md#testing--validation)5. Server → Analyze with Rekognition (parallel)
-
+5. Server → Analyze with Rekognition (parallel)
    ├─ Detect Labels
-
----   ├─ Detect Faces
-
+   ├─ Detect Faces
    └─ Index Faces
-
-## 🚢 Deployment6. Server → Upload to S3
-
+6. Server → Upload to S3
    ├─ images/uuid.jpg
-
-### Deploy to Vercel (Recommended)   └─ metadata/uuid.json
-
+   └─ metadata/uuid.json
 7. Server → Return success with count
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/igharsha7/image-analyzer)8. Client → Show success message
-
+8. Client → Show success message
 ```
-
-Or manually:
 
 #### Gallery Flow:
-
-```bash```
-
-# Install Vercel CLI1. User → Navigate to /gallery
-
-npm install -g vercel2. Client → GET /api/images
-
+```
+1. User → Navigate to /gallery
+2. Client → GET /api/images
 3. Server → Fetch all metadata from S3
-
-# Deploy4. Server → Generate signed URLs
-
-vercel --prod5. Client → Render grid with images
-
-```6. User → Apply filters/search
-
+4. Server → Generate signed URLs
+5. Client → Render grid with images
+6. User → Apply filters/search
 7. Client → Filter in real-time
-
-**Important**: 8. User → Click image
-
-- Set all environment variables in Vercel dashboard9. Client → Open modal with details
-
-- Update S3 CORS to include your Vercel domain```
-
-- Update Google API key restrictions
+8. User → Click image
+9. Client → Open modal with details
+```
 
 ### 3.3 Component Architecture
 
----
-
 **Frontend Components**:
-
-## 🐛 Troubleshooting1. Upload Page - Form interface for Drive URL input
-
+1. Upload Page - Form interface for Drive URL input
 2. Gallery Page - Grid display with filters
-
-### Build Fails with Peer Dependency Error3. Image Card - Individual image component with metadata
-
-**Solution**: Ensure `vercel.json` and `.npmrc` are present with `--legacy-peer-deps` flag4. Image Viewer Modal - Full-screen image view
-
+3. Image Card - Individual image component with metadata
+4. Image Viewer Modal - Full-screen image view
 5. Face Overlay - Face detection bounding boxes
+6. Filter Bar - Search and filter controls
+7. Navbar - Navigation component
+8. Footer - Footer with attribution
 
-### Images Not Loading6. Filter Bar - Search and filter controls
-
-**Solution**: 7. Navbar - Navigation component
-
-- Check S3 CORS configuration8. Footer - Footer with attribution
-
-- Verify bucket policy allows public read
-
-- Ensure AWS credentials are valid**Backend Services**:
-
+**Backend Services**:
 1. Google Drive Service - Drive API wrapper
-
-### Face Detection Not Working2. Compression Service - Image optimization
-
-**Solution**:3. S3 Service - Storage operations
-
-- Verify Rekognition collection exists4. Rekognition Service - AI analysis
-
-- Check region is `ap-southeast-1`5. Config Service - Service initialization
-
-- Ensure faces are clearly visible in images
+2. Compression Service - Image optimization
+3. S3 Service - Storage operations
+4. Rekognition Service - AI analysis
+5. Config Service - Service initialization
 
 ### 3.4 Storage Architecture
 
-> **More Help**: Check [Setup Guide](./SETUP_GUIDE.md) or [open an issue](https://github.com/igharsha7/image-analyzer/issues)
-
 **AWS S3 Bucket Structure**:
-
----```
-
+```
 s3://ai-image-analyzer-soloml/
-
-## 🗺️ Roadmap├── images/
-
+├── images/
 │   ├── uuid-1.jpg
-
-- [ ] Batch upload progress with per-image status│   ├── uuid-2.jpg
-
-- [ ] Advanced face matching across images│   └── uuid-3.jpg
-
-- [ ] User authentication (NextAuth.js)└── metadata/
-
-- [ ] Image management (delete, re-analyze)    ├── uuid-1.json
-
-- [ ] Export functionality (CSV, ZIP, PDF)    ├── uuid-2.json
-
-- [ ] Mobile application (React Native)    └── uuid-3.json
-
-- [ ] Custom ML models```
-
-- [ ] Analytics dashboard
-
-**Metadata JSON Structure**:
-
----```json
-
-{
-
-## 🤝 Contributing  "id": "uuid-string",
-
-  "labels": ["Person", "Clothing", "Outdoor"],
-
-Contributions are welcome! Please feel free to submit a Pull Request.  "faces": [
-
-    {
-
-1. Fork the repository      "boundingBox": {
-
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)        "left": 0.23,
-
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)        "top": 0.15,
-
-4. Push to the branch (`git push origin feature/AmazingFeature`)        "width": 0.18,
-
-5. Open a Pull Request        "height": 0.25
-
-      },
-
----      "ageRange": { "low": 25, "high": 35 },
-
-      "gender": "Male",
-
-## 📄 License      "emotions": ["HAPPY", "CALM"]
-
-    }
-
-This project is developed as an internship assignment. All rights reserved.  ],
-
-  "uploadedAt": "2025-10-24T10:30:00.000Z"
-
----}
-
+│   ├── uuid-2.jpg
+│   └── uuid-3.jpg
+└── metadata/
+    ├── uuid-1.json
+    ├── uuid-2.json
+    └── uuid-3.json
 ```
 
-## 👤 Author
+**Metadata JSON Structure**:
+```json
+{
+  "id": "uuid-string",
+  "labels": ["Person", "Clothing", "Outdoor"],
+  "faces": [
+    {
+      "boundingBox": {
+        "left": 0.23,
+        "top": 0.15,
+        "width": 0.18,
+        "height": 0.25
+      },
+      "ageRange": { "low": 25, "high": 35 },
+      "gender": "Male",
+      "emotions": ["HAPPY", "CALM"]
+    }
+  ],
+  "uploadedAt": "2025-10-24T10:30:00.000Z"
+}
+```
 
 ---
 
-**Harsha**
+## 4. Technology Stack & Dependencies
+---
 
-- GitHub: [@igharsha7](https://github.com/igharsha7)## 4. Technology Stack & Dependencies
+## 4. Technology Stack & Dependencies
 
-- Project Link: [https://github.com/igharsha7/image-analyzer](https://github.com/igharsha7/image-analyzer)---
+(See Section 2.5 for complete dependency list with versions)
 
+### 4.1 Frontend Stack
 
-
----## 4. Technology Stack & Dependencies
-
-
-
-## 🙏 Acknowledgments(See Section 2.5 for complete dependency list with versions)
-
-
-
-- [Next.js](https://nextjs.org/) - The React Framework### 4.1 Frontend Stack
-
-- [AWS](https://aws.amazon.com/) - Cloud Services (S3, Rekognition)
-
-- [Google](https://developers.google.com/drive) - Drive API**Core Framework**: Next.js 16.0.0 with App Router
-
-- [Vercel](https://vercel.com/) - Deployment Platform- Server-side rendering (SSR)
-
-- [shadcn/ui](https://ui.shadcn.com/) - Beautiful UI Components- Static site generation (SSG)
-
-- [Sharp](https://sharp.pixelplumbing.com/) - High-performance Image Processing- API routes for serverless functions
-
+**Core Framework**: Next.js 16.0.0 with App Router
+- Server-side rendering (SSR)
+- Static site generation (SSG)
+- API routes for serverless functions
 - File-based routing
-
----- Image optimization
-
+- Image optimization
 - Code splitting
 
-## 📚 Documentation
-
 **UI Library**: React 19.2.0
-
-- [Setup Guide](./SETUP_GUIDE.md) - Complete setup instructions
-- [Quick Start](./QUICKSTART.md) - Get started in 5 minutes
-- [Technical Documentation](./Documentation.md) - Comprehensive technical documentation
-
----
+- Hooks: useState, useEffect, useMemo
+- Concurrent rendering features
+- Automatic batching
+- Server components ready
 
 **Type Safety**: TypeScript 5.0
-
-<div align="center">- Strict mode enabled
-
+- Strict mode enabled
 - Complete type definitions
-
-**Made with ❤️ using Next.js, React, TypeScript, and AWS**- Compile-time error checking
-
+- Compile-time error checking
 - Enhanced IDE support
 
-⭐ Star this repo if you find it helpful!
-
 **Styling**: Tailwind CSS 4.1
-
-</div>- Utility-first approach
-
+- Utility-first approach
 - Responsive design utilities
 - Custom color palette
 - JIT (Just-In-Time) compilation
