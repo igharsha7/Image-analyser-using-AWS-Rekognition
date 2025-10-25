@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![AWS](https://img.shields.io/badge/AWS-S3%20%26%20Rekognition-orange?style=for-the-badge&logo=amazon-aws)](https://aws.amazon.com/)
 [![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/)
-[![GitHub Repository](https://img.shields.io/github/stars/igharsha7/image-analyzer?style=social)](https://github.com/igharsha7/image-analyzer)
+[![GitHub Repository](https://img.shields.io/github/stars/igharsha7/Image-analyser-using-AWS-Rekognition?style=social)](https://github.com/igharsha7/Image-analyser-using-AWS-Rekognition)
 
 ## Automate Image Analysis and Face Detection with Google Drive, AWS Rekognition, and S3
 
