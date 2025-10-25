@@ -156,4 +156,4 @@ This project is developed as an internship assignment.
 **Harsha**
 
 -   GitHub: [@igharsha7](https://github.com/igharsha7)
--   Project Link: [https://github.com/igharsha7/image-analyzer](https://github.com/igharsha7/image-analyzer)
+-   Project Link: [https://github.com/igharsha7/Image-analyser-using-AWS-Rekognition](https://github.com/igharsha7/Image-analyser-using-AWS-Rekognition)
